@@ -1,0 +1,29 @@
+{
+  "name": "tooltip-module",
+  "version": "1.0.0",
+  "homepage": "https://github.com/mkay581/tooltip",
+  "authors": [
+    "Mark Kennedy <mkay581@gmail.com>"
+  ],
+  "description": "Helpful javascript tooltip class",
+  "moduleType": [
+    "amd",
+    "es6",
+    "node"
+  ],
+  "keywords": [
+    "tooltip"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "main": "src/carousel.js",
+  "dependencies": {
+    "element-kit": "~0.6.0"
+  }
+}
