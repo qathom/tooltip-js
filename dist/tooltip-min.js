@@ -1,5 +1,5 @@
 /** 
-* tooltip-module - v1.0.2.
+* tooltip-module - v1.0.3.
 * git://github.com/mkay581/tooltip.git
 * Copyright 2015 Mark Kennedy. Licensed MIT.
 */

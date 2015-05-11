@@ -13,11 +13,24 @@ Create your Tooltip html:
 <button class="my-tooltip-toggle-btn">Toggle</button>
 ```
 
+The add your css:
+
+```css
+
+.my-tooltip {
+    display: none;
+}
+
+.my-tooltip-active {
+    display: block;
+}
+```
+
 Then activate your tooltip with the following: 
 
 ```javascript
 var tooltip = new Tooltip({
-    el: document.body.getElementsByClassName('my-modal'),
+    el: document.body.getElementsByClassName('my-tooltip'),
     activeClass: 'my-tooltip-active',
     triggerClass: 'my-tooltip-toggle-btn'
 });
