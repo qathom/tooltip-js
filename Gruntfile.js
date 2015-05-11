@@ -7,15 +7,15 @@ module.exports = function(grunt) {
             dist: 'dist',
             build: {
                 files: {
-                    'dist/modal.js': ['src/modal.js']
+                    'dist/tooltip.js': ['src/tooltip.js']
                 },
                 browserifyOptions: {
-                    standalone: 'Modal'
+                    standalone: 'tooltip'
                 }
             },
             min: {
                 files: {
-                    'dist/modal-min.js': ['dist/modal.js']
+                    'dist/tooltip-min.js': ['dist/tooltip.js']
                 }
             },
             banner: {
