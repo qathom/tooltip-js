@@ -1,0 +1,24 @@
+{
+  "name": "tooltip-module",
+  "version": "1.0.0",
+  "description": "Helpful javascript tooltip class",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mkay581/tooltip.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "author": {
+    "name": "Mark Kennedy",
+    "url": "http://heyimmark.com"
+  },
+  "main": "src/tooltip.js",
+  "dependencies": {
+    "element-kit": "^0.6.0"
+  },
+  "devDependencies": {
+    "build-tools": "^1.2.7",
+    "sinon": "^1.14.1"
+  }
+}
