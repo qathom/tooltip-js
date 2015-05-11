@@ -1,7 +1,7 @@
 'use strict';
 
 var utils = require('element-kit').utils;
-var ElementKit = require('element-kit');
+require('element-kit');
 
 /**
  * Tooltip.
@@ -12,7 +12,8 @@ var ElementKit = require('element-kit');
  * @param {string} [options.hideEvent] - A string indicating which event should trigger hiding the tooltip
  * @param {Function} [options.onShow] - A callback function that fires when tooltip panel is shown
  * @param {Function} [options.onHide] - A callback function that fires when tooltip panel is hidden
- * @param {string} [options.cssPrefix] - A custom css class that will be used as namespace for all css classes applied
+ * @param {string} [options.activeClass] - A custom css class that will be applied when the toggle is shown and removed when hidden
+ * @param {string} [options.triggerClass] - A custom css class that will be used to query all elements that will trigger a show/hide toggle on tooltip
  */
 var Tooltip = function (options) {
     this.initialize(options);
@@ -32,14 +33,12 @@ Tooltip.prototype = /** @lends Tooltip.prototype */{
             hideEvent: null,
             onShow: null,
             onHide: null,
-            cssPrefix: 'ui-tooltip'
+            activeClass: 'tooltip-active',
+            triggerClass: 'tooltip-trigger'
         }, options);
 
-        this.prefix = this.options.cssPrefix;
-        this.activeClass = this.prefix + '-active';
-
         this.el = this.options.el;
-        this.trigger = this.el.getElementsByClassName(this.prefix + '-trigger')[0];
+        this.trigger = this.el.getElementsByClassName(this.options.triggerClass)[0];
 
         this.setup();
 
@@ -131,7 +130,7 @@ Tooltip.prototype = /** @lends Tooltip.prototype */{
      * @memberOf Tooltip
      */
     show: function () {
-        this.el.kit.classList.add(this.activeClass);
+        this.el.kit.classList.add(this.options.activeClass);
         if (this.options.onShow) {
             this.options.onShow();
         }
@@ -142,7 +141,7 @@ Tooltip.prototype = /** @lends Tooltip.prototype */{
      * @memberOf Tooltip
      */
     hide: function () {
-        this.el.kit.classList.remove(this.activeClass);
+        this.el.kit.classList.remove(this.options.activeClass);
         if (this.options.onHide) {
             this.options.onHide();
         }
@@ -154,7 +153,7 @@ Tooltip.prototype = /** @lends Tooltip.prototype */{
      * @returns {boolean} Returns true if showing
      */
     isActive: function () {
-        return this.el.kit.classList.contains(this.activeClass);
+        return this.el.kit.classList.contains(this.options.activeClass);
     },
 
     /**
