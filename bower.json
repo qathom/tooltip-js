@@ -1,7 +1,7 @@
 {
   "name": "tooltip-module",
-  "version": "1.0.3",
-  "homepage": "https://github.com/mkay581/tooltip",
+  "version": "1.1.0",
+  "homepage": "https://github.com/mkay581/tooltip-js",
   "authors": [
     "Mark Kennedy <mkay581@gmail.com>"
   ],
@@ -22,8 +22,8 @@
     "test",
     "tests"
   ],
-  "main": "src/carousel.js",
+  "main": "src/tooltip.js",
   "dependencies": {
-    "element-kit": "~0.6.0"
+    "element-kit": "^1.0.5"
   }
 }
