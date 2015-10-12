@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/mkay581/tooltip-js.svg?branch=master)](https://travis-ci.org/mkay581/tooltip-js)
+
 # Tooltip
 
 Create simple or advanced, high performant Tooltips with minimal javascript and markup.
