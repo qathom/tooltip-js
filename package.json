@@ -10,7 +10,9 @@
     "registry": "https://registry.npmjs.org/"
   },
   "keywords": [
-    "tooltip"
+    "tooltip",
+    "js tooltip",
+    "tooltip js"
   ],
   "license": "MIT",
   "author": {
