@@ -1,7 +1,10 @@
+"use strict";
 var sinon = require('sinon');
 var TestUtils = require('test-utils');
 var Tooltip = require('../src/tooltip');
 var assert = require('assert');
+import Promise from 'promise';
+import Module from 'module-js';
 
 describe('Tooltip', function () {
 
@@ -17,23 +20,33 @@ describe('Tooltip', function () {
         el = null;
     });
 
+    beforeEach(function () {
+        sinon.stub(Module.prototype, 'show').returns(Promise.resolve());
+        sinon.stub(Module.prototype, 'hide').returns(Promise.resolve());
+        sinon.stub(Module.prototype, 'destroy');
+    });
+
+    afterEach(function () {
+        Module.prototype.show.restore();
+        Module.prototype.hide.restore();
+        Module.prototype.destroy.restore();
+    });
+
     it('should show and hide programmatically', function() {
-        var fixture = document.getElementById('qunit-fixture');
         var activeClass = 'ui-tooltip-active';
         var tooltip = new Tooltip({el: el, activeClass: activeClass});
-        assert.ok(!el.kit.classList.contains(activeClass), 'tooltip active class does not exist initially');
+        assert.ok(!el.classList.contains(activeClass), 'tooltip active class does not exist initially');
         assert.ok(!tooltip.isActive(), 'isActive() is falsy');
         tooltip.show();
-        assert.ok(el.kit.classList.contains(activeClass), 'tooltip active class was added when calling show method');
+        assert.ok(el.classList.contains(activeClass), 'tooltip active class was added when calling show method');
         assert.ok(tooltip.isActive(), 'isActive() is truthy');
         tooltip.hide();
-        assert.ok(!el.kit.classList.contains(activeClass), 'tooltip active class was removed when calling hide method');
+        assert.ok(!el.classList.contains(activeClass), 'tooltip active class was removed when calling hide method');
         assert.ok(!tooltip.isActive(), 'isActive() is falsy');
         tooltip.destroy();
     });
 
     it('should show and hide when trigger is clicked', function() {
-        var fixture = document.getElementById('qunit-fixture');
         var showSpy = sinon.spy(Tooltip.prototype, 'show');
         var showCallCount = 0;
         var hideSpy = sinon.spy(Tooltip.prototype, 'hide');
@@ -62,7 +75,6 @@ describe('Tooltip', function () {
     });
 
     it('should NOT show and hide when no event options are specified', function() {
-        var fixture = document.getElementById('qunit-fixture');
         var showSpy = sinon.spy(Tooltip.prototype, 'show');
         var hideSpy = sinon.spy(Tooltip.prototype, 'hide');
         var triggerClass = 'ui-tooltip-trigger';
@@ -89,7 +101,6 @@ describe('Tooltip', function () {
     });
 
     it('should show and hide on hover', function() {
-        var fixture = document.getElementById('qunit-fixture');
         var showSpy = sinon.spy(Tooltip.prototype, 'show');
         var showCallCount = 0;
         var hideSpy = sinon.spy(Tooltip.prototype, 'hide');
@@ -116,6 +127,31 @@ describe('Tooltip', function () {
         tooltip.destroy();
         showSpy.restore();
         hideSpy.restore();
+    });
+
+    it('should return Module\'s show() method when calling show()', function() {
+        Module.prototype.show.returns(Promise.resolve());
+        var tooltip = new Tooltip({el: el});
+        return tooltip.show().then(function () {
+            assert.equal(Module.prototype.show.callCount, 1);
+            tooltip.destroy();
+        });
+    });
+
+    it('should return Module\'s hide() method when calling hide()', function() {
+        Module.prototype.hide.returns(Promise.resolve());
+        var tooltip = new Tooltip({el: el});
+        return tooltip.hide().then(function () {
+            assert.equal(Module.prototype.hide.callCount, 1);
+            tooltip.destroy();
+        });
+    });
+
+    it('should return Module\'s destroy() method when calling destroy()', function() {
+        Module.prototype.destroy.returns(Promise.resolve());
+        var tooltip = new Tooltip({el: el});
+        tooltip.destroy();
+        assert.equal(Module.prototype.destroy.callCount, 1);
     });
 
 });

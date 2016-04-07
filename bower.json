@@ -1,18 +1,21 @@
 {
   "name": "tooltip-module",
-  "version": "1.1.0",
   "homepage": "https://github.com/mkay581/tooltip-js",
   "authors": [
     "Mark Kennedy <mkay581@gmail.com>"
   ],
-  "description": "Helpful javascript tooltip class",
+  "description": "Easily implement tooltips using minimal javascript. Supports Meteor, AngularJS, React, Polymer and any CSS library, e.g. Bootstrap.",
   "moduleType": [
     "amd",
     "es6",
     "node"
   ],
   "keywords": [
-    "tooltip"
+    "tooltip",
+    "js tooltip",
+    "tooltip js",
+    "angular tooltip",
+    "react tooltip"
   ],
   "license": "MIT",
   "ignore": [
@@ -24,6 +27,7 @@
   ],
   "main": "src/tooltip.js",
   "dependencies": {
-    "element-kit": "^1.0.5"
+    "lodash": "^4.8.2",
+    "module-js": "^5.2.0"
   }
 }

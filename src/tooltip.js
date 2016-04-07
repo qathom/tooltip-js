@@ -1,33 +1,27 @@
 'use strict';
-
-var utils = require('element-kit').utils;
-require('element-kit');
+import _ from 'lodash';
+import Module from 'module-js';
 
 /**
  * Tooltip.
- * @constructor Tooltip
- * @param {object} options - Options to pass
- * @param {HTMLElement} options.el - The container of the tooltip
- * @param {string} [options.showEvent] - A string indicating which event should trigger showing the tooltip
- * @param {string} [options.hideEvent] - A string indicating which event should trigger hiding the tooltip
- * @param {Function} [options.onShow] - A callback function that fires when tooltip panel is shown
- * @param {Function} [options.onHide] - A callback function that fires when tooltip panel is hidden
- * @param {string} [options.activeClass] - A custom css class that will be applied when the toggle is shown and removed when hidden
- * @param {string} [options.triggerClass] - A custom css class that will be used to query all elements that will trigger a show/hide toggle on tooltip
+ * @class Tooltip
  */
-var Tooltip = function (options) {
-    this.initialize(options);
-};
-
-Tooltip.prototype = /** @lends Tooltip.prototype */{
+class Tooltip extends Module {
 
     /**
      * When instantiated.
-     * @param options
+     * @param {object} options - Options to pass
+     * @param {HTMLElement} options.el - The container of the tooltip
+     * @param {string} [options.showEvent] - A string indicating which event should trigger showing the tooltip
+     * @param {string} [options.hideEvent] - A string indicating which event should trigger hiding the tooltip
+     * @param {Function} [options.onShow] - A callback function that fires when tooltip panel is shown
+     * @param {Function} [options.onHide] - A callback function that fires when tooltip panel is hidden
+     * @param {string} [options.activeClass] - A custom css class that will be applied when the toggle is shown and removed when hidden
+     * @param {string} [options.triggerClass] - A custom css class that will be used to query all elements that will trigger a show/hide toggle on tooltip
      */
-    initialize: function (options) {
+    constructor (options) {
 
-        this.options = utils.extend({
+        options = _.extend({
             el: null,
             showEvent: null,
             hideEvent: null,
@@ -37,35 +31,33 @@ Tooltip.prototype = /** @lends Tooltip.prototype */{
             triggerClass: 'tooltip-trigger'
         }, options);
 
-        this.el = this.options.el;
-        this.trigger = this.el.getElementsByClassName(this.options.triggerClass)[0];
+        super(options.el, options);
 
-        this.setup();
-
-    },
-
-    /**
-     * Sets up events for showing/hiding tooltip.
-     * @memberOf Tooltip
-     */
-    setup: function () {
-        var options = this.options;
+        this.options = options;
+        this.el = options.el;
+        this.trigger = options.el.getElementsByClassName(this.options.triggerClass)[0];
 
         // setup events if needed
         if (options.showEvent) {
             this.eventMap = this._setupEvents(options.showEvent, options.hideEvent);
         }
-    },
+
+    }
+
+    /**
+     * Sets up events for showing/hiding tooltip.
+     * @deprecated since 1.1.0
+     */
+    setup () {}
 
     /**
      * Sets up events.
      * @param {string} showEvent - The event string to hide tooltip
      * @param {string} hideEvent - The event string to show tooltip
      * @returns {object} - Returns a mapping of all events to their trigger functions.
-     * @memberOf Tooltip
      * @private
      */
-    _setupEvents: function (showEvent, hideEvent) {
+    _setupEvents (showEvent, hideEvent) {
         var map = this._buildEventMap(showEvent, hideEvent),
             key,
             e;
@@ -76,19 +68,19 @@ Tooltip.prototype = /** @lends Tooltip.prototype */{
             }
         }
         return map;
-    },
+    }
 
     /**
      * Fires when the show and hide events are the same and we need to determine whether to show or hide.
      * @private
      */
-    _onDuplicateEvent: function () {
+    _onDuplicateEvent () {
         if (this.isActive()) {
             this.hide();
         } else {
             this.show();
         }
-    },
+    }
 
 
     /**
@@ -98,7 +90,7 @@ Tooltip.prototype = /** @lends Tooltip.prototype */{
      * @returns {object} - Returns a mapping of all events to their trigger functions.
      * @private
      */
-    _buildEventMap: function (showEvent, hideEvent) {
+    _buildEventMap (showEvent, hideEvent) {
         var map = {};
 
         if (showEvent === hideEvent) {
@@ -123,44 +115,44 @@ Tooltip.prototype = /** @lends Tooltip.prototype */{
             }
         }
         return map;
-    },
+    }
 
     /**
      * Shows the tooltip.
-     * @memberOf Tooltip
+     * @returns {Promise}
      */
-    show: function () {
-        this.el.kit.classList.add(this.options.activeClass);
+    show () {
+        this.el.classList.add(this.options.activeClass);
         if (this.options.onShow) {
             this.options.onShow();
         }
-    },
+        return super.show();
+    }
 
     /**
      * Hides the tooltip.
-     * @memberOf Tooltip
+     * @returns {Promise}
      */
-    hide: function () {
-        this.el.kit.classList.remove(this.options.activeClass);
+    hide () {
+        this.el.classList.remove(this.options.activeClass);
         if (this.options.onHide) {
             this.options.onHide();
         }
-    },
+        return super.hide();
+    }
 
     /**
      * Checks whether tooltip is showing.
-     * @memberOf Tooltip
      * @returns {boolean} Returns true if showing
      */
-    isActive: function () {
-        return this.el.kit.classList.contains(this.options.activeClass);
-    },
+    isActive () {
+        return this.el.classList.contains(this.options.activeClass);
+    }
 
     /**
      * Destruction of this class.
-     * @memberOf Tooltip
      */
-    destroy: function () {
+    destroy () {
         var eventMap = this.eventMap,
             key,
             e;
@@ -174,8 +166,9 @@ Tooltip.prototype = /** @lends Tooltip.prototype */{
                 }
             }
         }
+        super.destroy();
     }
 
-};
+}
 
 module.exports = Tooltip;
