@@ -1,5 +1,5 @@
 /** 
-* tooltip-js - v2.0.0.
+* tooltip-js - v2.0.1.
 * git://github.com/mkay581/tooltip-js.git
 * Copyright 2016 Mark Kennedy. Licensed MIT.
 */
